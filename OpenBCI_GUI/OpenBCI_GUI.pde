@@ -395,6 +395,8 @@ void draw() {
   drawLoop_counter++;
   systemUpdate();
   systemDraw();
+  //add 0 reference for unity3D
+  sendToUnityZero();
 }
 
 void systemUpdate(){ // for updating data values and variables
