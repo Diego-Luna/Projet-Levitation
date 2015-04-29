@@ -25,6 +25,15 @@ import java.util.Map.Entry;
 import processing.serial.*;  //for serial communication to Arduino/OpenBCI
 import java.awt.event.*; //to allow for event listener on screen resize
 
+//*****************************
+//for communication to Unity3
+import oscP5.*;
+import netP5.*;
+
+OscP5 oscP5;
+NetAddress myBroadcastLocation; 
+//*****************************
+
 boolean isVerbose = true; //set true if you want more verbosity in console
 
 
@@ -1324,4 +1333,28 @@ void delay(int delay)
 //  );
 // }  
 
+void sendToUnity() {
+  OscMessage myOscMessage = new OscMessage("/counterTest");  
+  
+  float toUnity = 1;
+ 
+  println(toUnity);
+  myOscMessage.add(toUnity);
+  oscP5.send(myOscMessage, myBroadcastLocation);
+}
 
+void sendToUnityZero() {
+  OscMessage myOscMessage = new OscMessage("/counterTest");  
+  
+  float toUnity = 0;
+  
+  println(toUnity);
+  myOscMessage.add(toUnity);
+  oscP5.send(myOscMessage, myBroadcastLocation);
+}
+
+void oscEvent(OscMessage theOscMessage) {
+  /* get and print the address pattern and the typetag of the received OscMessage*/
+  println("### received an osc message with addrpattern "+theOscMessage.addrPattern()+" and typetag "+theOscMessage.typetag());
+  theOscMessage.print();
+}
